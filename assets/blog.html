@@ -1,0 +1,33 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <title>Blog</title>
+</head>
+
+<body>
+  <h1>Blog</h1>
+  <br/>
+
+  <!--
+    This section contains the form, that will be used to hit the
+    `POST /bird` API that we will build in the next section
+   -->
+  <form action="/blog" method="post">
+    Title:
+    <input type="text" name="title">
+    <br/> Content:
+    <input type="text" name="content">
+    <br/>
+    <input type="submit" value="Submit">
+  </form>
+
+  <!--
+    Finally, the last section is the script that will
+    run on each page load to fetch the list of birds
+    and add them to our existing table
+   -->
+</body>
+

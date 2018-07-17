@@ -1,0 +1,33 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <title>Register</title>
+</head>
+
+<body>
+  <h1>Register</h1>
+  <br/>
+
+  <!--
+    This section contains the form, that will be used to hit the
+    `POST /bird` API that we will build in the next section
+   -->
+  <form action="/register" method="post">
+    Username:
+    <input type="text" name="username">
+    <br/> Password:
+    <input type="text" name="password">
+    <br/>
+    <input type="submit" value="Submit">
+  </form>
+
+  <!--
+    Finally, the last section is the script that will
+    run on each page load to fetch the list of birds
+    and add them to our existing table
+   -->
+</body>
+
