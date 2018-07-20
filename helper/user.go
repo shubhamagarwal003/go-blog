@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"github.com/shubhamagarwal003/blog/models"
+	"github.com/shubhamagarwal003/go-blog/models"
 )
 
 func (store *DbStore) CreateUser(user *models.User) error {

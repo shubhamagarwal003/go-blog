@@ -1,13 +1,21 @@
 package helper
 
 import (
-	"github.com/shubhamagarwal003/blog/models"
+	"github.com/shubhamagarwal003/go-blog/models"
 )
 
-func (store *DbStore) CreateBlog(blog *models.Blog) error {
-	_, err := store.Db.Query("INSERT INTO blogs(title, content, uid) VALUES ($1,$2, $3)",
+func (store *DbStore) CreateBlog(blog *models.Blog) (int, error) {
+	var blogId int
+	row, err := store.Db.Query("INSERT INTO blogs(title, content, uid) VALUES ($1,$2, $3) Returning id",
 		blog.Title, blog.Content, blog.Uid)
-	return err
+	if err != nil {
+		return 0, err
+	}
+	defer row.Close()
+	if row.Next() {
+		row.Scan(&blogId)
+	}
+	return blogId, nil
 }
 
 func (store *DbStore) GetBlogs() ([]*models.Blog, error) {

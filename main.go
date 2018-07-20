@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
-	"github.com/shubhamagarwal003/blog/apis"
-	"github.com/shubhamagarwal003/blog/helper"
-	"github.com/shubhamagarwal003/blog/middlewares"
+	"github.com/shubhamagarwal003/go-blog/apis"
+	"github.com/shubhamagarwal003/go-blog/helper"
+	"github.com/shubhamagarwal003/go-blog/middlewares"
 	"net/http"
 	"reflect"
 )
@@ -29,6 +29,7 @@ func newRouter() *mux.Router {
 	r.HandleFunc("/blog", middlewares.UserLogged(apis.CreateBlog)).Methods("POST")
 	r.HandleFunc("/blogs", middlewares.UserLogged(apis.GetBlogs)).Methods("GET")
 	r.HandleFunc("/blog/{id:[0-9]+}", middlewares.UserLogged(apis.GetBlog)).Methods("GET")
+	r.HandleFunc("/tag/", middlewares.UserLogged(apis.GetBlogsWithTag)).Methods("GET")
 	return r
 }
 

@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/shubhamagarwal003/blog/helper"
-	"github.com/shubhamagarwal003/blog/models"
+	"github.com/shubhamagarwal003/go-blog/helper"
+	"github.com/shubhamagarwal003/go-blog/models"
 	"net/http"
 	"reflect"
+	"strings"
 )
 
 func CreateBlog(w http.ResponseWriter, r *http.Request) {
@@ -28,11 +29,39 @@ func CreateBlog(w http.ResponseWriter, r *http.Request) {
 		blog.Title = r.Form.Get("title")
 		blog.Content = r.Form.Get("content")
 		blog.Uid = uid
-		err = helper.Str.CreateBlog(&blog)
+		tag := r.Form.Get("tag")
+		tx, err := helper.Str.BeginTransaction()
 		if err != nil {
 			fmt.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
+		}
+		defer func() {
+			if err != nil {
+				fmt.Println("... Error")
+				tx.Rollback()
+				return
+			}
+			err = tx.Commit()
+		}()
+		blogId, err := helper.Str.CreateBlog(&blog)
+		if err != nil {
+			fmt.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		var tempTag *models.Tag
+		if len(tag) > 0 && blogId > 0 {
+			tagValues := strings.Split(tag, ",")
+			for _, tagValue := range tagValues {
+				tempTag = &models.Tag{Value: tagValue, BlogId: blogId}
+				err = helper.Str.CreateTag(tempTag)
+				if err != nil {
+					fmt.Println(err)
+					w.WriteHeader(http.StatusInternalServerError)
+					return
+				}
+			}
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	}

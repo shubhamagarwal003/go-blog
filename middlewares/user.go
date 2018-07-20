@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"context"
-	"github.com/shubhamagarwal003/blog/helper"
+	"github.com/shubhamagarwal003/go-blog/helper"
 	"net/http"
 )
 

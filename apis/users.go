@@ -3,8 +3,8 @@ package apis
 import (
 	"crypto/rand"
 	"fmt"
-	"github.com/shubhamagarwal003/blog/helper"
-	"github.com/shubhamagarwal003/blog/models"
+	"github.com/shubhamagarwal003/go-blog/helper"
+	"github.com/shubhamagarwal003/go-blog/models"
 	"net/http"
 	"time"
 )

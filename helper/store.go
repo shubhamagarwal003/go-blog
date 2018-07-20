@@ -3,7 +3,7 @@ package helper
 // The sql go library is needed to interact with the database
 import (
 	"database/sql"
-	"github.com/shubhamagarwal003/blog/models"
+	"github.com/shubhamagarwal003/go-blog/models"
 )
 
 // Our store will have two methods, to add a new bird,
@@ -15,9 +15,12 @@ type Store interface {
 	SaveToken(sessionToken *models.SessionToken) error
 	DeleteToken(token string) error
 	GetUser(token string) *models.User
-	CreateBlog(blog *models.Blog) error
+	CreateBlog(blog *models.Blog) (int, error)
 	GetBlogs() ([]*models.Blog, error)
 	GetBlog(id string) (*models.Blog, error)
+	CreateTag(tag *models.Tag) error
+	BeginTransaction() (*sql.Tx, error)
+	GetBlogsForTag(tagValue string) ([]*models.Blog, error)
 }
 
 // The `dbStore` struct will implement the `Store` interface
@@ -25,6 +28,11 @@ type Store interface {
 // the database connection.
 type DbStore struct {
 	Db *sql.DB
+}
+
+func (store *DbStore) BeginTransaction() (*sql.Tx, error) {
+	tx, err := store.Db.Begin()
+	return tx, err
 }
 
 // The store variable is a package level variable that will be available for
